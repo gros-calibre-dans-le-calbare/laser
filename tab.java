@@ -3,7 +3,20 @@ package fr.maxx;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import net.minecraft.server.v1_8_R3.EntityEnderDragon;
+import net.minecraft.server.v1_8_R3.EntityWither;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.Packet;
+import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
+import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving;
+import net.minecraft.server.v1_8_R3.WorldServer;
+
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -11,20 +24,18 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-
-import net.minecraft.server.v1_8_R3.IChatBaseComponent;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
-
-
+import org.inventivetalent.bossbar.BossBar;
+import org.inventivetalent.bossbar.BossBarAPI;
 
 public class tab implements Listener {
-   
+	   
 	List<Entity> entities;
 	boolean playerLocated = false;
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
-		sendTablistHeaderAndFooter(e.getPlayer(),SkyWars.getInstance().getConfig().getString("tab.header") ,SkyWars.getInstance().getConfig().getString("tab.footer"));
+		Player p = e.getPlayer();
+		sendTablistHeaderAndFooter(e.getPlayer(), "§aBienvenue sur le serveur §e§lMearadaMC", "§cts: §f12.54.254.32 §c/ site: §fsite.fr");	
+		
 	}
 	
 	public void sendTablistHeaderAndFooter(Player p, String header, String footer) {
@@ -45,22 +56,11 @@ public class tab implements Listener {
 			((CraftPlayer)p).getHandle().playerConnection.sendPacket(headerPacket);
 		}
 	}
-	public void locatePlayer(PlayerMoveEvent e){
-		Player p = e.getPlayer();
-		if(GameState.isState(GameState.GAME)){
-		for(int i = 0; i < Bukkit.getOnlinePlayers().size(); i++){
-			entities = p.getNearbyEntities(i, 64, i);
-			for(Entity ent : entities){
-				if(ent instanceof Player){
-					playerLocated = true;
-					if(playerLocated){
-						int distance = (int)p.getLocation().distance(ent.getLocation());
-					}
-				}
-			}
-		}
-		}
-	}
+	
+	
+	
+
+	
 
 
 }
